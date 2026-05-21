@@ -8,16 +8,18 @@ type CounterUpProps = {
   suffix?: string;
   label: string;
   duration?: number;
+  index?: number;
 };
 
 export function CounterUp({
   value,
   suffix = "",
   label,
-  duration = 2000,
+  duration = 1800,
+  index = 0,
 }: CounterUpProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -43,12 +45,22 @@ export function CounterUp({
   }, [isInView, value, duration]);
 
   return (
-    <div ref={ref} className="text-center">
-      <div className="text-4xl md:text-5xl font-sora font-bold text-navy">
-        {count}
-        {suffix}
+    <div ref={ref} className="group relative pt-6 border-t border-ink/15">
+      <span className="absolute -top-px left-0 h-px w-12 bg-brass transition-all duration-700 group-hover:w-24" />
+      <span className="font-mono text-[10px] tracking-widest uppercase text-fog">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <div className="mt-3 flex items-baseline gap-1">
+        <span className="font-display text-5xl md:text-6xl font-medium text-ink tabular-nums tracking-tight leading-none">
+          {count}
+        </span>
+        <span className="font-display text-3xl md:text-4xl font-light text-brass leading-none">
+          {suffix}
+        </span>
       </div>
-      <p className="text-sm text-slate mt-2">{label}</p>
+      <p className="mt-4 text-[13px] text-fog leading-snug max-w-[180px]">
+        {label}
+      </p>
     </div>
   );
 }

@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
-import { Sora, Inter } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import "@/styles/globals.css";
+import { ProvfilmProvider } from "@/components/forms/ProvfilmContext";
 
-const sora = Sora({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-sora",
-  weight: ["500", "600", "700"],
+  variable: "--font-fraunces",
+  axes: ["SOFT", "WONK", "opsz"],
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono-stack",
   weight: ["400", "500"],
   display: "swap",
 });
@@ -35,8 +43,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="sv" className={`${sora.variable} ${inter.variable}`}>
-      <body className="font-inter antialiased">{children}</body>
+    <html
+      lang="sv"
+      className={`${fraunces.variable} ${inter.variable} ${mono.variable}`}
+    >
+      <body className="antialiased">
+        <ProvfilmProvider>{children}</ProvfilmProvider>
+      </body>
     </html>
   );
 }

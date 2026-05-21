@@ -13,23 +13,40 @@ export function StepIndicator({
   title,
   description,
   stepNumber,
-  isLast = false,
 }: StepIndicatorProps) {
-  const Icon = (LucideIcons as unknown as Record<string, React.ComponentType<{ size?: number; className?: string }>>)[icon];
+  const Icon = (
+    LucideIcons as unknown as Record<
+      string,
+      React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>
+    >
+  )[icon];
 
   return (
-    <div className="flex flex-col items-center text-center relative">
-      <div className="w-14 h-14 rounded-full bg-gold/20 flex items-center justify-center mb-4">
-        {Icon && <Icon size={24} className="text-navy" />}
+    <div className="group relative">
+      {/* Step number — oversized editorial */}
+      <div className="flex items-baseline justify-between mb-6">
+        <span className="font-display text-7xl md:text-8xl font-light leading-none text-ink tabular-nums">
+          {String(stepNumber).padStart(2, "0")}
+        </span>
+        <div className="w-10 h-10 border border-ink/20 flex items-center justify-center transition-colors duration-500 group-hover:bg-ink group-hover:border-ink">
+          {Icon && (
+            <Icon
+              size={16}
+              strokeWidth={1.4}
+              className="text-ink transition-colors duration-500 group-hover:text-ivory"
+            />
+          )}
+        </div>
       </div>
-      <span className="text-xs font-sora font-semibold text-gold mb-1">
-        Steg {stepNumber}
-      </span>
-      <h3 className="font-sora font-semibold text-navy text-base">{title}</h3>
-      <p className="text-sm text-slate mt-1 max-w-[200px]">{description}</p>
-      {!isLast && (
-        <div className="hidden lg:block absolute top-7 left-[calc(50%+40px)] w-[calc(100%-80px)] h-px bg-slate/20" />
-      )}
+
+      <div className="h-px w-full bg-ink/15 mb-5 origin-left transition-transform duration-500 group-hover:bg-brass" />
+
+      <h3 className="font-display text-xl md:text-[22px] text-ink leading-tight">
+        {title}
+      </h3>
+      <p className="mt-3 text-sm leading-relaxed text-fog max-w-[260px]">
+        {description}
+      </p>
     </div>
   );
 }
