@@ -52,7 +52,8 @@ export function OrderForm({ item }: { item: CatalogItem }) {
       }
       const data = (await res.json()) as { checkoutUrl?: string };
       if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+        // Method call (not property mutation) keeps React Compiler happy.
+        window.location.assign(data.checkoutUrl);
         return;
       }
       throw new Error("Saknar betallänk.");

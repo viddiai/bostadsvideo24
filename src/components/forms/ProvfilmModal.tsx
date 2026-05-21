@@ -62,8 +62,10 @@ export function ProvfilmModal({ open, onClose }: Props) {
       }
       const data = (await res.json()) as { checkoutUrl?: string };
       if (data.checkoutUrl) {
-        // Redirect to Stripe Checkout for the 1 900 kr provfilm
-        window.location.href = data.checkoutUrl;
+        // Redirect to Stripe Checkout for the 1 900 kr provfilm.
+        // Use .assign() (method) instead of `location.href = ...` (mutation)
+        // so React Compiler's immutability rule is satisfied.
+        window.location.assign(data.checkoutUrl);
         return;
       }
       setSubmitState("success");

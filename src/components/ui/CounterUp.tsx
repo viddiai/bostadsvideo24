@@ -24,10 +24,9 @@ export function CounterUp({
 
   useEffect(() => {
     if (!isInView) return;
-    if (value === 0) {
-      setCount(0);
-      return;
-    }
+    // value === 0 — useState(0) already initialized count to 0,
+    // so no setState needed (React Compiler forbids sync setState in effects).
+    if (value === 0) return;
 
     let start = 0;
     const increment = value / (duration / 16);
