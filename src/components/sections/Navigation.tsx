@@ -47,16 +47,26 @@ export function Navigation() {
         <div className="flex items-center justify-between h-[68px]">
           {/* Logo */}
           <a href="#" className="group flex items-baseline gap-1">
-            <span className="font-display text-[22px] tracking-tight text-ink font-medium">
+            <span
+              className={`font-display text-[22px] tracking-tight font-medium transition-colors duration-500 ${
+                scrolled ? "text-ink" : "text-ivory"
+              }`}
+            >
               Bostads
               <span
-                className="italic-display font-medium"
+                className={`italic-display font-medium transition-colors duration-500 ${
+                  scrolled ? "text-ink" : "text-brass-light"
+                }`}
                 style={{ fontVariationSettings: '"SOFT" 100, "WONK" 1' }}
               >
                 video
               </span>
             </span>
-            <span className="font-mono text-[11px] tracking-widest text-brass-deep pb-0.5">
+            <span
+              className={`font-mono text-[11px] tracking-widest pb-0.5 transition-colors duration-500 ${
+                scrolled ? "text-brass-deep" : "text-brass-light"
+              }`}
+            >
               /24
             </span>
           </a>
@@ -67,9 +77,19 @@ export function Navigation() {
               <a
                 key={link.href}
                 href={link.href}
-                className="group flex items-baseline gap-1.5 text-[13px] text-ink/75 hover:text-ink transition-colors duration-300"
+                className={`group flex items-baseline gap-1.5 text-[13px] transition-colors duration-300 ${
+                  scrolled
+                    ? "text-ink/75 hover:text-ink"
+                    : "text-ivory/75 hover:text-ivory"
+                }`}
               >
-                <span className="font-mono text-[9px] tracking-widest text-fog/70 group-hover:text-brass">
+                <span
+                  className={`font-mono text-[9px] tracking-widest transition-colors duration-300 ${
+                    scrolled
+                      ? "text-fog/70 group-hover:text-brass"
+                      : "text-ivory/40 group-hover:text-brass-light"
+                  }`}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="font-sans">{link.label}</span>
@@ -79,13 +99,15 @@ export function Navigation() {
 
           {/* CTA */}
           <div className="hidden lg:block">
-            <ProvfilmTrigger size="sm" />
+            <ProvfilmTrigger size="sm" variant={scrolled ? "primary" : "inverse"} />
           </div>
 
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden text-ink p-2 -mr-2"
+            className={`lg:hidden p-2 -mr-2 transition-colors duration-500 ${
+              scrolled ? "text-ink" : "text-ivory"
+            }`}
             aria-label="Menu"
           >
             {mobileOpen ? (
