@@ -1,0 +1,45 @@
+"use client";
+
+import { useEffect } from "react";
+import Cal, { getCalApi } from "@calcom/embed-react";
+
+type Props = {
+  calLink: string;
+  namespace?: string;
+};
+
+export function CalendarEmbed({ calLink, namespace = "strategimote" }: Props) {
+  useEffect(() => {
+    (async () => {
+      const cal = await getCalApi({ namespace });
+      // Theme + brand styling so Cal.com matches our editorial palette.
+      cal("ui", {
+        theme: "light",
+        hideEventTypeDetails: false,
+        layout: "month_view",
+        cssVarsPerTheme: {
+          light: {
+            "cal-brand": "#0F1B2E",
+            "cal-text": "#0F1B2E",
+            "cal-bg": "#F1EAD7",
+            "cal-bg-emphasis": "#FAF6EC",
+            "cal-border": "rgba(15,27,46,0.15)",
+            "cal-border-emphasis": "rgba(15,27,46,0.3)",
+          },
+        },
+      });
+    })();
+  }, [namespace]);
+
+  return (
+    <Cal
+      namespace={namespace}
+      calLink={calLink}
+      style={{ width: "100%", height: "100%", overflow: "scroll" }}
+      config={{
+        layout: "month_view",
+        theme: "light",
+      }}
+    />
+  );
+}
