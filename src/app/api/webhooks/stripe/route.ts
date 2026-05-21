@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
-import { stripe } from "@/lib/stripe";
-import { resend, fromAddress, notificationEmail } from "@/lib/resend";
+import { getStripe } from "@/lib/stripe";
+import { getResend, fromAddress, notificationEmail } from "@/lib/resend";
 
 export const runtime = "nodejs";
 
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(payload, sig, secret);
+    event = getStripe().webhooks.constructEvent(payload, sig, secret);
   } catch (e) {
     console.error("Webhook signature verification failed:", e);
     return NextResponse.json(
@@ -61,7 +61,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   // 1. Internal confirmation email
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: fromAddress,
       to: notificationEmail,
       replyTo: customerEmail,
@@ -86,7 +86,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   // 2. Customer confirmation email
   if (customerEmail !== "okänd") {
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromAddress,
         to: customerEmail,
         subject: "Tack för din beställning hos Bostadsvideo24",

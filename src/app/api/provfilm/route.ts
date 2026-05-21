@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { stripe, siteUrl } from "@/lib/stripe";
-import { resend, fromAddress, notificationEmail } from "@/lib/resend";
+import { getStripe, siteUrl } from "@/lib/stripe";
+import { getResend, fromAddress, notificationEmail } from "@/lib/resend";
 import { catalog } from "@/lib/catalog";
 
 export const runtime = "nodejs";
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   // Fire-and-forget — never block payment on email problems
   void (async () => {
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: fromAddress,
         to: notificationEmail,
         replyTo: data.email,
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
 
   // ── 2. Create Stripe Checkout session ─────────────────────────
   try {
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card", "klarna"],
       line_items: [
