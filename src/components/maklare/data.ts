@@ -3,7 +3,12 @@
 // conversion-focused page can be edited and A/B-tested independently.
 
 export const CTA_LABEL = "Boka kickoff-möte";
-export const CTA_HREF = "/boka";
+
+// Cal.com booking opened as a popup directly from the CTA buttons
+// (element-click embed) — keeps visitors on the landing page.
+export const CAL_LINK = "stefan-vikstrom-peakmarketing/strategimote-bostadsvideo24";
+export const CAL_NAMESPACE = "strategimote-bostadsvideo24";
+export const CAL_CONFIG = '{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}';
 
 // Risk-reversal badges shown directly under every primary CTA.
 export const riskBadges = [

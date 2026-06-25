@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { CTA_LABEL, CTA_HREF } from "./data";
+import { KickoffButton } from "./Cta";
 
 const links = [
   { label: "Problemet", href: "#problemet" },
@@ -88,13 +87,7 @@ export function MaklareNav() {
 
           {/* CTA */}
           <div className="hidden lg:block">
-            <Button
-              href={CTA_HREF}
-              size="sm"
-              variant={scrolled ? "primary" : "inverse"}
-            >
-              {CTA_LABEL}
-            </Button>
+            <KickoffButton size="sm" tone={scrolled ? "light" : "dark"} />
           </div>
 
           {/* Mobile toggle */}
@@ -129,9 +122,7 @@ export function MaklareNav() {
                 <span className="font-display text-lg">{link.label}</span>
               </a>
             ))}
-            <Button href={CTA_HREF} className="w-full mt-4">
-              {CTA_LABEL}
-            </Button>
+            <KickoffButton size="sm" className="w-full mt-4" />
           </div>
         )}
       </div>

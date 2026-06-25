@@ -1,33 +1,83 @@
+"use client";
+
+import { useEffect } from "react";
+import { getCalApi } from "@calcom/embed-react";
 import * as LucideIcons from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { CTA_LABEL, CTA_HREF, riskBadges } from "./data";
+import { ArrowUpRight } from "lucide-react";
+import {
+  CTA_LABEL,
+  CAL_LINK,
+  CAL_NAMESPACE,
+  CAL_CONFIG,
+  riskBadges,
+} from "./data";
 
 type IconCmp = React.ComponentType<{
   size?: number;
   className?: string;
   strokeWidth?: number;
 }>;
-
 const Icons = LucideIcons as unknown as Record<string, IconCmp>;
 
 type Tone = "light" | "dark";
+type Size = "sm" | "md";
 
-/** Primary kickoff CTA button. Always points to the booking flow. */
+const base =
+  "group inline-flex items-center justify-center gap-2 font-sans font-medium tracking-tight transition-all duration-300 ease-out relative overflow-hidden cursor-pointer";
+const sizeCx: Record<Size, string> = {
+  sm: "px-4 py-2 text-[13px]",
+  md: "px-6 py-3.5 text-sm",
+};
+// tone "light" → ink button (on light bg); tone "dark" → ivory button (on dark bg)
+const toneCx: Record<Tone, string> = {
+  light:
+    "bg-ink text-ivory hover:bg-ink-soft border border-ink hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(15,27,46,0.55)]",
+  dark:
+    "bg-ivory text-ink border border-ivory hover:bg-brass hover:border-brass hover:text-ink hover:-translate-y-0.5",
+};
+
+/**
+ * Primary kickoff CTA. Opens the Cal.com booking as a popup on click
+ * (element-click embed) rather than navigating away.
+ */
 export function KickoffButton({
   tone = "light",
+  size = "md",
   className = "",
 }: {
   tone?: Tone;
+  size?: Size;
   className?: string;
 }) {
+  useEffect(() => {
+    (async () => {
+      const cal = await getCalApi({ namespace: CAL_NAMESPACE });
+      cal("ui", {
+        cssVarsPerTheme: {
+          light: { "cal-brand": "#241d7b" },
+          dark: { "cal-brand": "#fafafa" },
+        },
+        hideEventTypeDetails: false,
+        layout: "month_view",
+      });
+    })();
+  }, []);
+
   return (
-    <Button
-      href={CTA_HREF}
-      variant={tone === "dark" ? "inverse" : "primary"}
-      className={className}
+    <button
+      type="button"
+      data-cal-namespace={CAL_NAMESPACE}
+      data-cal-link={CAL_LINK}
+      data-cal-config={CAL_CONFIG}
+      className={`${base} ${sizeCx[size]} ${toneCx[tone]} ${className}`}
     >
-      {CTA_LABEL}
-    </Button>
+      <span className="relative z-10">{CTA_LABEL}</span>
+      <ArrowUpRight
+        size={15}
+        strokeWidth={1.6}
+        className="relative z-10 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      />
+    </button>
   );
 }
 
