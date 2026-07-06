@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { ProvfilmTrigger } from "@/components/forms/ProvfilmTrigger";
 import { ArrowUpRight, MapPin, Mail } from "lucide-react";
 
-export function Footer() {
+export function Footer({ showNav = true }: { showNav?: boolean } = {}) {
   return (
     <footer id="kontakt" className="relative bg-ink text-ivory grain grain-on-dark overflow-hidden">
       {/* Giant brand wordmark in background */}
@@ -73,26 +73,28 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <div className="lg:col-span-3">
-            <span className="font-mono text-[10px] tracking-[0.24em] uppercase text-ivory/40 block mb-5">
-              Navigera
-            </span>
-            <ul className="space-y-3">
-              {footer.links.map((link, i) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="group flex items-baseline gap-2 text-[14px] text-ivory/80 hover:text-ivory transition-colors"
-                  >
-                    <span className="font-mono text-[10px] tracking-widest text-ivory/40">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="editorial-link">{link.label}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {showNav && (
+            <div className="lg:col-span-3">
+              <span className="font-mono text-[10px] tracking-[0.24em] uppercase text-ivory/40 block mb-5">
+                Navigera
+              </span>
+              <ul className="space-y-3">
+                {footer.links.map((link, i) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="group flex items-baseline gap-2 text-[14px] text-ivory/80 hover:text-ivory transition-colors"
+                    >
+                      <span className="font-mono text-[10px] tracking-widest text-ivory/40">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="editorial-link">{link.label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Contact */}
           <div className="lg:col-span-4">

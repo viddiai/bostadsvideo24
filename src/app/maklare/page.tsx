@@ -45,7 +45,7 @@ export default function MaklareLandingPage() {
         <RiskReversal />
         <FinalCta />
       </main>
-      <Footer />
+      <Footer showNav={false} />
     </>
   );
 }
